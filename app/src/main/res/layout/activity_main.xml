@@ -217,21 +217,6 @@
         app:layout_constraintVertical_bias="0.492" />
 
     <Button
-        android:id="@+id/button23"
-        style="@style/Base.CardView"
-        android:layout_width="66dp"
-        android:layout_height="37dp"
-        android:background="@color/black"
-        android:text="Button"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.402" />
-
-    <Button
         android:id="@+id/three_button"
         style="@style/Base.CardView"
         android:layout_width="66dp"
@@ -285,7 +270,8 @@
         android:layout_width="44dp"
         android:layout_height="33dp"
         android:background="@color/black"
-        android:text="Button"
+        android:text="->"
+        android:padding="0dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -300,7 +286,8 @@
         android:layout_width="44dp"
         android:layout_height="33dp"
         android:background="@color/black"
-        android:text="Button"
+        android:text="/\"
+        android:padding="0dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -315,7 +302,8 @@
         android:layout_width="44dp"
         android:layout_height="33dp"
         android:background="@color/black"
-        android:text="Button"
+        android:text="\\/"
+        android:padding="0dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -330,7 +318,8 @@
         android:layout_width="44dp"
         android:layout_height="33dp"
         android:background="@color/black"
-        android:text="Button"
+        android:text="<-"
+        android:padding="0dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -338,21 +327,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.279" />
-
-    <Button
-        android:id="@+id/button13"
-        style="@style/Base.CardView"
-        android:layout_width="66dp"
-        android:layout_height="37dp"
-        android:background="@color/black"
-        android:text="Button"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.402" />
 
     <Button
         android:id="@+id/six_button"
@@ -416,51 +390,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.492" />
-
-    <Button
-        android:id="@+id/button9"
-        style="@style/Base.CardView"
-        android:layout_width="66dp"
-        android:layout_height="37dp"
-        android:background="@color/black"
-        android:text="Button"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.402" />
-
-    <Button
-        android:id="@+id/button12"
-        style="@style/Base.CardView"
-        android:layout_width="66dp"
-        android:layout_height="37dp"
-        android:background="@color/black"
-        android:text="Button"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.257"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.402" />
-
-    <Button
-        android:id="@+id/button14"
-        style="@style/Base.CardView"
-        android:layout_width="66dp"
-        android:layout_height="37dp"
-        android:background="@color/black"
-        android:text="Button"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.742"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.402" />
 
     <Button
         android:id="@+id/shift_button"
