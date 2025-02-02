@@ -80,7 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         equalsButton = findViewById(R.id.equals_button);
 
         displayCalculationInput = findViewById(R.id.display_calculation_input);
+        displayCalculationInput.setText("");
         displayCalculationOutput = findViewById(R.id.display_calculation_output);
+        displayCalculationOutput.setText("");
 
         shiftButton.setOnClickListener(this);
         alphaButton.setOnClickListener(this);
@@ -136,41 +138,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (v.getId() == R.id.on_button) {
                 // Handle on button click
             } else if (v.getId() == R.id.one_button) {
-                // Handle one button click
+                displayCalculationInput.append("1");
             } else if (v.getId() == R.id.two_button) {
-                // Handle two button click
+                displayCalculationInput.append("2");
             } else if (v.getId() == R.id.three_button) {
-                // Handle three button click
+                displayCalculationInput.append("3");
             } else if (v.getId() == R.id.four_button) {
-                // Handle four button click
+                displayCalculationInput.append("4");
             } else if (v.getId() == R.id.five_button) {
-                // Handle five button click
+                displayCalculationInput.append("5");
             } else if (v.getId() == R.id.six_button) {
-                // Handle six button click
+                displayCalculationInput.append("6");
             } else if (v.getId() == R.id.seven_button) {
-                // Handle seven button click
+                displayCalculationInput.append("7");
             } else if (v.getId() == R.id.eight_button) {
-                // Handle eight button click
+                displayCalculationInput.append("8");
             } else if (v.getId() == R.id.nine_button) {
-                // Handle nine button click
+                displayCalculationInput.append("9");
             } else if (v.getId() == R.id.zero_button) {
-                // Handle zero button click
+                displayCalculationInput.append("0");
             } else if (v.getId() == R.id.zero_zero_button) {
-                // Handle zero zero button click
+                displayCalculationInput.append("00");
             } else if (v.getId() == R.id.backspace_button) {
                 // Handle backspace button click
             } else if (v.getId() == R.id.reset_button) {
                 // Handle reset button click
             } else if (v.getId() == R.id.multiply_button) {
-                // Handle multiply button click
+                displayCalculationInput.append("*");
             } else if (v.getId() == R.id.divide_button) {
-                // Handle divide button click
+                displayCalculationInput.append("/");
             } else if (v.getId() == R.id.plus_button) {
-                // Handle plus button click
+                displayCalculationInput.append("+");
             } else if (v.getId() == R.id.minus_button) {
-                // Handle minus button click
+                displayCalculationInput.append("-");
             } else if (v.getId() == R.id.ans_button) {
-                // Handle ans button click
+                displayCalculationInput.append("ANS");
             } else if (v.getId() == R.id.equals_button) {
                 // Handle equals button click
 
