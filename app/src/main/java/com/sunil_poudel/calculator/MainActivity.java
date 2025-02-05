@@ -1,6 +1,7 @@
 package com.sunil_poudel.calculator;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button shiftButton;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button nineButton;
     private Button zeroButton;
     private Button zeroZeroButton;
+    private Button pointButton;
     private Button backspaceButton;
     private Button resetButton;
     private Button multiplyButton;
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         minusButton = findViewById(R.id.minus_button);
         ansButton = findViewById(R.id.ans_button);
         equalsButton = findViewById(R.id.equals_button);
+        pointButton = findViewById(R.id.point_button);
 
         displayCalculationInput = findViewById(R.id.display_calculation_input);
         displayCalculationInput.setText("");
@@ -112,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         minusButton.setOnClickListener(this);
         ansButton.setOnClickListener(this);
         equalsButton.setOnClickListener(this);
+        pointButton.setOnClickListener(this);
 
 
     }
@@ -120,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
             if (v.getId() == R.id.shift_button) {
-                displayCalculationInput.setText("clicked shift");
+                // Handle shift button click
             } else if (v.getId() == R.id.alpha_button) {
                 // Handle alpha button click
             } else if (v.getId() == R.id.up_button) {
@@ -160,9 +166,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (v.getId() == R.id.zero_zero_button) {
                 displayCalculationInput.append("00");
             } else if (v.getId() == R.id.backspace_button) {
-                // Handle backspace button click
+                String temp = displayCalculationInput.getText().toString();
+                if(!temp.isEmpty()){
+                    temp = temp.substring(0, temp.length()-1);
+                    displayCalculationInput.setText(temp);
+                }
             } else if (v.getId() == R.id.reset_button) {
-                // Handle reset button click
+                displayCalculationInput.setText("");
             } else if (v.getId() == R.id.multiply_button) {
                 displayCalculationInput.append("*");
             } else if (v.getId() == R.id.divide_button) {
@@ -174,8 +184,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (v.getId() == R.id.ans_button) {
                 displayCalculationInput.append("ANS");
             } else if (v.getId() == R.id.equals_button) {
-                // Handle equals button click
+                String input = displayCalculationInput.getText().toString();
+                operation(input);
+            } else if(v.getId() == R.id.point_button){
+                displayCalculationInput.append(".");
+            }
+    }
+
+    public void operation(String input){
+        int resultTemp = 0;
+
+        char[] inputArray = input.toCharArray();
+        Stack<Character> stack = new Stack<>();
+        Stack<Character> operationStack = new Stack<>();
+        StringBuilder postfix = new StringBuilder();
+
+        for(char c:inputArray){
+            if(Character.isDigit(c)){
+                postfix.append(c);
+            } else if(c=='('){
+                stack.push(c);
+            } else if (c=='+'||c=='-'||c=='*'||c=='/') {
+                while(!stack.isEmpty() && precedence(stack.peek())>=precedence(c)){
+                    postfix.append(stack.pop());
+
+                }
+                stack.push(c);
+            } else if (c==')') {
+                while(!stack.isEmpty() && stack.peek()!='('){
+                    postfix.append(stack.pop());
+                }
+                stack.pop();
+
+            }
+        }
+        while(!stack.isEmpty()){
+            postfix.append(stack.pop());
 
         }
+
+        Log.d("SUNIL SAYS", String.valueOf(postfix));
+        Log.d("SUNIL SAYS", String.valueOf(resultTemp));
+
+
+
+    }
+    public static int precedence(char c){
+        return switch (c){
+            case '^' -> 3;
+            case '*', '/' -> 2;
+            case '+', '-' -> 1;
+            default -> -1;
+        };
     }
 }
