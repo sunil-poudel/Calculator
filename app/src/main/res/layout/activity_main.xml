@@ -504,40 +504,39 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
-        android:layout_width="376dp"
-        android:layout_height="106dp"
+        android:layout_width="381dp"
+        android:layout_height="128dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        android:padding="0dp"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044"
-        android:padding="0dp">
+        app:layout_constraintVertical_bias="0.026">
 
         <TextView
             android:id="@+id/display_calculation_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="top"
             android:padding="10sp"
             android:text="Hello"
-            android:textSize="30sp"
-            android:layout_gravity="top"
             android:textColor="@color/white"
-            android:gravity="top"/>
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/display_calculation_output"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Output"
-            android:textSize="30sp"
             android:layout_gravity="bottom|end"
             android:padding="10sp"
+            android:text="Output"
             android:textColor="@color/white"
-            />
+            android:textSize="30sp" />
     </com.google.android.material.appbar.MaterialToolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

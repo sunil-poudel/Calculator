@@ -303,6 +303,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
             int i = 0;
+            if(list.size()==1){
+                result = Float.parseFloat(list.get(0));
+            } else{
             while (list.size() != 1) {
                 String s = list.get(i);
                 if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/")) {
@@ -323,6 +326,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     i++;
                 }
+            }
 
             }
         } catch (NumberFormatException | IndexOutOfBoundsException errors){
