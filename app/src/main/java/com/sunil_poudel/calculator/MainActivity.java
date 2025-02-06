@@ -12,6 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -198,71 +200,114 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 displayCalculationInput.append("ANS");
             } else if (v.getId() == R.id.equals_button) {
                 String input = displayCalculationInput.getText().toString();
-                toPostFix(input);
-//                operation(input);
+                Stack<String> postfixStack = toPostFix(input);
+                String result = doCalculation(postfixStack);
+                displayCalculationOutput.setText(result);
             } else if(v.getId() == R.id.point_button){
                 displayCalculationInput.append(".");
             }
     }
 
-    public void operation(String input){
-        Stack<Integer> operandsStack = new Stack<>();
-        Stack<Character> operatorStack = new Stack<>();
-        Stack<Character> overallStack = new Stack<>();
+    public static Stack<String> toPostFix(String infix){
+            Stack<String> stack = new Stack<>();
+            Stack<String> postfixStack = new Stack<>();
+            StringBuilder postfix = new StringBuilder();
+            char[] infixArray = infix.toCharArray();
 
-    }
-    public static void toPostFix(String infix){
-        Stack<Integer> operandsStack = new Stack<>();
-        Stack<Character> operatorStack = new Stack<>();
-        Stack<String> overallStack = new Stack<>();
+            for(int i=0; i< infixArray.length; i++){
+                char c = infixArray[i];
+                if(Character.isDigit(c)) {
+                    String[] returned = extractDigit(infixArray, i);
+                    String operand = returned[0];
+                    i = Integer.parseInt(returned[1]);
 
-        Stack<Character> stack = new Stack<>();
-        StringBuilder postfix = new StringBuilder();
-        StringBuilder tempOperand = new StringBuilder();
-        StringBuilder tempOperator = new StringBuilder();
-
-
-        char[] infixArray = infix.toCharArray();
-
-        for(char c:infixArray){
-            if(Character.isDigit(c)){
-                tempOperand.append(c);
-                postfix.append(c);
-            } else if(c=='('){
-                operatorStack.push(c);
-                stack.push(c);
-            } else if(c==')'){
-                operatorStack.push(c);
-                while(!stack.isEmpty() && stack.peek()!='('){
-                    postfix.append(stack.pop());
+                    postfix.append(operand);
+                    postfixStack.push(operand);
+                    System.out.println(operand);
+                } else if(c=='('){
+                    stack.push(String.valueOf(c));
+                } else if(c==')'){
+                    while(!stack.isEmpty() && !stack.peek().equals("(")){
+                        postfix.append(stack.peek());
+                        postfixStack.push(stack.pop());
+                    }
+                    stack.pop();
+                } else{
+                    while(!stack.isEmpty()&& precedence(stack.peek())>=precedence(String.valueOf(c))){
+                        postfix.append(stack.peek());
+                        postfixStack.push(stack.pop());
+                    }
+                    stack.push(String.valueOf(c));
                 }
-                stack.pop();
-            } else{
-                operatorStack.push(c);
-                while(!stack.isEmpty()&& precedence(stack.peek())>=precedence(c)){
-                    postfix.append(stack.pop());
-                }
-                stack.push(c);
-            }
-            if(!String.valueOf(tempOperand).isEmpty() && (!Character.isDigit(c) || c==infixArray[infixArray.length-1])) {
-                operandsStack.push(Integer.parseInt(String.valueOf(tempOperand)));
-                tempOperand = new StringBuilder();
-            }
-        }
 
-        while(!stack.isEmpty()){
-            postfix.append(stack.pop());
-        }
+            }
 
-        Log.d("SUNIL SAYS", String.valueOf(operandsStack));
-        Log.d("SUNIL SAYS", String.valueOf(operatorStack));
+            while(!stack.isEmpty()){
+                postfix.append(stack.peek());
+                postfixStack.push(stack.pop());
+            }
+
+//            System.out.println(stack);
+//            System.out.println(postfix);
+//            System.out.println(postfixStack);
+//            System.out.println(doCalculation(postfixStack));
+
+        return postfixStack;
     }
-    public static int precedence(char c){
-        return switch (c){
-            case '^' -> 3;
-            case '*', '/' -> 2;
-            case '+', '-' -> 1;
+    public static int precedence(String s){
+        return switch (s){
+            case "^" -> 3;
+            case "*", "/" -> 2;
+            case "+", "-" -> 1;
             default -> -1;
         };
+    }
+
+    public static String[] extractDigit(char[] arr, int position){
+        StringBuilder extractedDigit = new StringBuilder();
+//        System.out.println("----------");
+        for(int i=position; i<arr.length; i++){
+            if(Character.isDigit(arr[i])){
+                extractedDigit.append(arr[i]);
+                position++;
+            } else{
+                break;
+            }
+        }
+//        System.out.println(extractedDigit);
+//        System.out.println(position);
+//        System.out.println("----------");
+        return new String[]{String.valueOf(extractedDigit), String.valueOf(position-1)};
+    }
+    public static String doCalculation(Stack<String> postfixStack){
+        String[] arr = postfixStack.toArray(new String[0]);
+        List<String> list = new ArrayList<>(List.of(arr));
+        float result = 0.0f;
+        System.out.println(list);
+
+        int i=0;
+        while(list.size()!=1){
+            String s = list.get(i);
+            if(s.equals("+")||s.equals("-")||s.equals("*")||s.equals("/")){
+                float x = Float.parseFloat(list.get(i-2));
+                float y = Float.parseFloat(list.get(i-1));
+                result = switch (s){
+                    case "+"->x+y;
+                    case "-"->x-y;
+                    case "*"->x*y;
+                    case "/"->x/y;
+                    default -> 0.0f;
+                };
+                list.remove(i);
+                list.add(i, String.valueOf(result));
+                list.remove(i-1);
+                list.remove(i-2);
+                i=0;
+            } else{
+                i++;
+            }
+
+        }
+        return String.valueOf(result);
     }
 }
