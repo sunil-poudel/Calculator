@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 
@@ -107,6 +108,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         okButton.setOnClickListener(this);
         modeButton.setOnClickListener(this);
         onButton.setOnClickListener(this);
+
+        shiftButton.setVisibility(View.INVISIBLE);
+        alphaButton.setVisibility(View.INVISIBLE);
+        upButton.setVisibility(View.INVISIBLE);
+        downButton.setVisibility(View.INVISIBLE);
+        leftButton.setVisibility(View.INVISIBLE);
+        rightButton.setVisibility(View.INVISIBLE);
+        okButton.setVisibility(View.INVISIBLE);
+        modeButton.setVisibility(View.INVISIBLE);
+        onButton.setVisibility(View.INVISIBLE);
+
         openingParenthesisButton.setOnClickListener(this);
         closingParenthesisButton.setOnClickListener(this);
         oneButton.setOnClickListener(this);
@@ -126,7 +138,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         divideButton.setOnClickListener(this);
         plusButton.setOnClickListener(this);
         minusButton.setOnClickListener(this);
+
         ansButton.setOnClickListener(this);
+        ansButton.setVisibility(View.INVISIBLE);
+
         equalsButton.setOnClickListener(this);
         pointButton.setOnClickListener(this);
 
@@ -188,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             } else if (v.getId() == R.id.reset_button) {
                 displayCalculationInput.setText("");
+                displayCalculationOutput.setText("");
             } else if (v.getId() == R.id.multiply_button) {
                 displayCalculationInput.append("*");
             } else if (v.getId() == R.id.divide_button) {
@@ -213,10 +229,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Stack<String> postfixStack = new Stack<>();
             StringBuilder postfix = new StringBuilder();
             char[] infixArray = infix.toCharArray();
-
-            for(int i=0; i< infixArray.length; i++){
+        try {
+            for (int i = 0; i < infixArray.length; i++) {
                 char c = infixArray[i];
-                if(Character.isDigit(c)) {
+                if (Character.isDigit(c)) {
                     String[] returned = extractDigit(infixArray, i);
                     String operand = returned[0];
                     i = Integer.parseInt(returned[1]);
@@ -224,16 +240,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     postfix.append(operand);
                     postfixStack.push(operand);
                     System.out.println(operand);
-                } else if(c=='('){
+                } else if (c == '(') {
                     stack.push(String.valueOf(c));
-                } else if(c==')'){
-                    while(!stack.isEmpty() && !stack.peek().equals("(")){
+                } else if (c == ')') {
+                    while (!stack.isEmpty() && !stack.peek().equals("(")) {
                         postfix.append(stack.peek());
                         postfixStack.push(stack.pop());
                     }
                     stack.pop();
-                } else{
-                    while(!stack.isEmpty()&& precedence(stack.peek())>=precedence(String.valueOf(c))){
+                } else {
+                    while (!stack.isEmpty() && precedence(stack.peek()) >= precedence(String.valueOf(c))) {
                         postfix.append(stack.peek());
                         postfixStack.push(stack.pop());
                     }
@@ -242,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
 
-            while(!stack.isEmpty()){
+            while (!stack.isEmpty()) {
                 postfix.append(stack.peek());
                 postfixStack.push(stack.pop());
             }
@@ -251,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            System.out.println(postfix);
 //            System.out.println(postfixStack);
 //            System.out.println(doCalculation(postfixStack));
-
+        } catch(EmptyStackException emptyStackException){};
         return postfixStack;
     }
     public static int precedence(String s){
@@ -285,28 +301,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         float result = 0.0f;
         System.out.println(list);
 
-        int i=0;
-        while(list.size()!=1){
-            String s = list.get(i);
-            if(s.equals("+")||s.equals("-")||s.equals("*")||s.equals("/")){
-                float x = Float.parseFloat(list.get(i-2));
-                float y = Float.parseFloat(list.get(i-1));
-                result = switch (s){
-                    case "+"->x+y;
-                    case "-"->x-y;
-                    case "*"->x*y;
-                    case "/"->x/y;
-                    default -> 0.0f;
-                };
-                list.remove(i);
-                list.add(i, String.valueOf(result));
-                list.remove(i-1);
-                list.remove(i-2);
-                i=0;
-            } else{
-                i++;
-            }
+        try {
+            int i = 0;
+            while (list.size() != 1) {
+                String s = list.get(i);
+                if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/")) {
+                    float x = Float.parseFloat(list.get(i - 2));
+                    float y = Float.parseFloat(list.get(i - 1));
+                    result = switch (s) {
+                        case "+" -> x + y;
+                        case "-" -> x - y;
+                        case "*" -> x * y;
+                        case "/" -> x / y;
+                        default -> 0.0f;
+                    };
+                    list.remove(i);
+                    list.add(i, String.valueOf(result));
+                    list.remove(i - 1);
+                    list.remove(i - 2);
+                    i = 0;
+                } else {
+                    i++;
+                }
 
+            }
+        } catch (NumberFormatException | IndexOutOfBoundsException errors){
+            return "Syntax error!";
         }
         return String.valueOf(result);
     }
