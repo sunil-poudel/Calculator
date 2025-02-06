@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toPostFix("100*(10-2)");
+
         shiftButton = findViewById(R.id.shift_button);
         alphaButton = findViewById(R.id.alpha_button);
         upButton = findViewById(R.id.up_button);
@@ -210,33 +213,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public static void toPostFix(String infix){
         Stack<Integer> operandsStack = new Stack<>();
+        Stack<Character> operatorStack = new Stack<>();
+        Stack<String> overallStack = new Stack<>();
+
         Stack<Character> stack = new Stack<>();
         StringBuilder postfix = new StringBuilder();
-        StringBuilder tempPostFix = new StringBuilder();
+        StringBuilder tempOperand = new StringBuilder();
+        StringBuilder tempOperator = new StringBuilder();
+
 
         char[] infixArray = infix.toCharArray();
 
         for(char c:infixArray){
             if(Character.isDigit(c)){
-                tempPostFix.append(c);
+                tempOperand.append(c);
                 postfix.append(c);
             } else if(c=='('){
+                operatorStack.push(c);
                 stack.push(c);
             } else if(c==')'){
+                operatorStack.push(c);
                 while(!stack.isEmpty() && stack.peek()!='('){
-
                     postfix.append(stack.pop());
                 }
                 stack.pop();
             } else{
+                operatorStack.push(c);
                 while(!stack.isEmpty()&& precedence(stack.peek())>=precedence(c)){
                     postfix.append(stack.pop());
                 }
                 stack.push(c);
             }
-            if(!String.valueOf(tempPostFix).isEmpty() && (!Character.isDigit(c) || c==infixArray[infixArray.length-1])) {
-                operandsStack.push(Integer.parseInt(String.valueOf(tempPostFix)));
-                tempPostFix = new StringBuilder();
+            if(!String.valueOf(tempOperand).isEmpty() && (!Character.isDigit(c) || c==infixArray[infixArray.length-1])) {
+                operandsStack.push(Integer.parseInt(String.valueOf(tempOperand)));
+                tempOperand = new StringBuilder();
             }
         }
 
@@ -245,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Log.d("SUNIL SAYS", String.valueOf(operandsStack));
+        Log.d("SUNIL SAYS", String.valueOf(operatorStack));
     }
     public static int precedence(char c){
         return switch (c){
