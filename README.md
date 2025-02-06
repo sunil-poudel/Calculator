@@ -8,6 +8,7 @@ Simple yet useful for simple calculations.
 <img src="assets/app_2.png" alt="app sample" width="200">
 </div>
 
-
+<div class="row">
 <img src="assets/app_3.png" alt="app sample" width="200">
 <img src="assets/app_4.png" alt="app sample" width="200">
+</div>
