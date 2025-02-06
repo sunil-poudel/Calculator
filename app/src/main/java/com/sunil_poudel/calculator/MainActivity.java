@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         StringBuilder extractedDigit = new StringBuilder();
 //        System.out.println("----------");
         for(int i=position; i<arr.length; i++){
-            if(Character.isDigit(arr[i])){
+            if(Character.isDigit(arr[i])||arr[i] == '.'){
                 extractedDigit.append(arr[i]);
                 position++;
             } else{
