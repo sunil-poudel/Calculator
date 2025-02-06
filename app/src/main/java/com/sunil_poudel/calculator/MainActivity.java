@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button okButton;
     private Button modeButton;
     private Button onButton;
+    private Button openingParenthesisButton;
+    private Button closingParenthesisButton;
     private Button oneButton;
     private Button twoButton;
     private Button threeButton;
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         okButton = findViewById(R.id.ok_button);
         modeButton = findViewById(R.id.mode_button);
         onButton = findViewById(R.id.on_button);
+        openingParenthesisButton = findViewById(R.id.opening_parenthesis_button);
+        closingParenthesisButton = findViewById(R.id.closing_parenthesis_button);
         oneButton = findViewById(R.id.one_button);
         twoButton = findViewById(R.id.two_button);
         threeButton = findViewById(R.id.three_button);
@@ -98,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         okButton.setOnClickListener(this);
         modeButton.setOnClickListener(this);
         onButton.setOnClickListener(this);
+        openingParenthesisButton.setOnClickListener(this);
+        closingParenthesisButton.setOnClickListener(this);
         oneButton.setOnClickListener(this);
         twoButton.setOnClickListener(this);
         threeButton.setOnClickListener(this);
@@ -143,6 +149,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // Handle mode button click
             } else if (v.getId() == R.id.on_button) {
                 // Handle on button click
+            } else if (v.getId() == R.id.opening_parenthesis_button) {
+                displayCalculationInput.append("(");
+            } else if (v.getId() == R.id.closing_parenthesis_button) {
+                displayCalculationInput.append(")");
             } else if (v.getId() == R.id.one_button) {
                 displayCalculationInput.append("1");
             } else if (v.getId() == R.id.two_button) {
@@ -185,49 +195,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 displayCalculationInput.append("ANS");
             } else if (v.getId() == R.id.equals_button) {
                 String input = displayCalculationInput.getText().toString();
-                operation(input);
+                toPostFix(input);
+//                operation(input);
             } else if(v.getId() == R.id.point_button){
                 displayCalculationInput.append(".");
             }
     }
 
     public void operation(String input){
-        int resultTemp = 0;
+        Stack<Integer> operandsStack = new Stack<>();
+        Stack<Character> operatorStack = new Stack<>();
+        Stack<Character> overallStack = new Stack<>();
 
-        char[] inputArray = input.toCharArray();
+    }
+    public static void toPostFix(String infix){
+        Stack<Integer> operandsStack = new Stack<>();
         Stack<Character> stack = new Stack<>();
-        Stack<Character> operationStack = new Stack<>();
         StringBuilder postfix = new StringBuilder();
+        StringBuilder tempPostFix = new StringBuilder();
 
-        for(char c:inputArray){
+        char[] infixArray = infix.toCharArray();
+
+        for(char c:infixArray){
             if(Character.isDigit(c)){
+                tempPostFix.append(c);
                 postfix.append(c);
             } else if(c=='('){
                 stack.push(c);
-            } else if (c=='+'||c=='-'||c=='*'||c=='/') {
-                while(!stack.isEmpty() && precedence(stack.peek())>=precedence(c)){
-                    postfix.append(stack.pop());
-
-                }
-                stack.push(c);
-            } else if (c==')') {
+            } else if(c==')'){
                 while(!stack.isEmpty() && stack.peek()!='('){
+
                     postfix.append(stack.pop());
                 }
                 stack.pop();
-
+            } else{
+                while(!stack.isEmpty()&& precedence(stack.peek())>=precedence(c)){
+                    postfix.append(stack.pop());
+                }
+                stack.push(c);
+            }
+            if(!String.valueOf(tempPostFix).isEmpty() && (!Character.isDigit(c) || c==infixArray[infixArray.length-1])) {
+                operandsStack.push(Integer.parseInt(String.valueOf(tempPostFix)));
+                tempPostFix = new StringBuilder();
             }
         }
+
         while(!stack.isEmpty()){
             postfix.append(stack.pop());
-
         }
 
-        Log.d("SUNIL SAYS", String.valueOf(postfix));
-        Log.d("SUNIL SAYS", String.valueOf(resultTemp));
-
-
-
+        Log.d("SUNIL SAYS", String.valueOf(operandsStack));
     }
     public static int precedence(char c){
         return switch (c){
